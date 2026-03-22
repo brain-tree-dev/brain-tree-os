@@ -52,7 +52,6 @@
   "packageManager": "npm@10.8.2",
   "scripts": {
     "build": "npm run build --workspace=packages/cli && npm run build --workspace=packages/web",
-    "lint": "npm run lint --workspace=packages/web",
     "typecheck": "npm run typecheck --workspace=packages/cli && npm run typecheck --workspace=packages/web"
   },
   "engines": {
