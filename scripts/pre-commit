@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Prevent committing .env files
+if git diff --cached --name-only | grep -qE '\.env(\.local)?$'; then
+  echo "Error: Attempting to commit .env file. Remove it from staging with:"
+  echo "  git reset HEAD <file>"
+  exit 1
+fi

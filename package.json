@@ -1,0 +1,61 @@
+{
+  "name": "brain-tree-os",
+  "version": "0.1.3",
+  "description": "Open source brain viewer and project management for AI agents",
+  "license": "MIT",
+  "author": "BrainTree <dev@brain-tree.ai>",
+  "homepage": "https://brain-tree.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brain-tree-dev/brain-tree-os.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brain-tree-dev/brain-tree-os/issues"
+  },
+  "keywords": [
+    "braintree",
+    "brain",
+    "ai",
+    "project-management",
+    "claude",
+    "agents",
+    "obsidian",
+    "open-source"
+  ],
+  "bin": {
+    "brain-tree-os": "packages/cli/dist/index.js"
+  },
+  "files": [
+    "packages/cli/dist/",
+    "packages/cli/commands/",
+    "packages/web/.next/",
+    "!packages/web/.next/cache/",
+    "!packages/web/.next/standalone/",
+    "!packages/web/.next/trace/",
+    "!packages/web/.next/diagnostics/",
+    "packages/web/dist/",
+    "packages/web/public/",
+    "packages/web/package.json",
+    "demo/"
+  ],
+  "dependencies": {
+    "chokidar": "^4.0.0",
+    "next": "^15.2.0",
+    "open": "^10.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "ws": "^8.18.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "npm@10.8.2",
+  "scripts": {
+    "build": "npm run build --workspace=packages/cli && npm run build --workspace=packages/web",
+    "lint": "npm run lint --workspace=packages/web",
+    "typecheck": "npm run typecheck --workspace=packages/cli && npm run typecheck --workspace=packages/web"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

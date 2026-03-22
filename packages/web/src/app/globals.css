@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (GDPR: no Google Fonts CDN) */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/Inter-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/Inter-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/Inter-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 700; font-display: swap; src: url("/fonts/Inter-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/Lora-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/Lora-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-style: normal; font-weight: 600; font-display: swap; src: url("/fonts/Lora-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-style: normal; font-weight: 700; font-display: swap; src: url("/fonts/Lora-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-style: italic; font-weight: 400; font-display: swap; src: url("/fonts/Lora-Italic.woff2") format("woff2"); }
+@font-face { font-family: "Lora"; font-style: italic; font-weight: 500; font-display: swap; src: url("/fonts/Lora-MediumItalic.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 400; font-display: swap; src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("/fonts/JetBrainsMono-Medium.woff2") format("woff2"); }
+
+@layer base {
+  a, button, [role="button"], input[type="submit"], input[type="reset"], input[type="button"], select, summary {
+    cursor: pointer;
+  }
+}
+
+@theme {
+  --color-bg: #FAFAF5;
+  --color-bg-section: #F2F1EA;
+  --color-bg-card: #E8E8E0;
+
+  --color-text: #2B2A25;
+  --color-text-secondary: rgba(43, 42, 37, 0.62);
+  --color-text-muted: rgba(43, 42, 37, 0.38);
+
+  --color-border: rgba(43, 42, 37, 0.12);
+  --color-border-hover: rgba(43, 42, 37, 0.2);
+
+  --color-leaf: #5B9A65;
+  --color-leaf-hover: #4E8757;
+  --color-bark: #8B6B4A;
+  --color-gold: #E8A830;
+  --color-gold-hover: #D49A28;
+  --color-gold-border: #C48A1A;
+  --color-sky: #4A9FD9;
+  --color-berry: #D95B5B;
+  --color-bloom: #9B6BB5;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Lora", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: rgba(91, 154, 101, 0.22);
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(43, 42, 37, 0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(43, 42, 37, 0.25); }
+
+:focus-visible {
+  outline: 2px solid rgba(91, 154, 101, 0.5);
+  outline-offset: 2px;
+}
+
+.bg-mesh {
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 85%, rgba(160, 195, 140, 0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 75% 15%, rgba(195, 175, 135, 0.40) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 55% at 55% 55%, rgba(230, 215, 185, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 25% 25%, rgba(180, 170, 200, 0.20) 0%, transparent 50%),
+    radial-gradient(ellipse 90% 70% at 85% 75%, rgba(210, 190, 155, 0.30) 0%, transparent 55%),
+    var(--color-bg);
+}
+
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 100;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-delay-1 { animation-delay: 0.15s; }
+.animate-delay-2 { animation-delay: 0.3s; }
+.animate-delay-3 { animation-delay: 0.5s; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}

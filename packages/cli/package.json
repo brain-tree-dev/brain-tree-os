@@ -1,0 +1,24 @@
+{
+  "name": "brain-tree-os",
+  "version": "0.1.0",
+  "description": "Open source brain viewer for AI-native project management",
+  "bin": {
+    "brain-tree-os": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": ["dist/", "README.md"],
+  "keywords": ["ai", "project-management", "brain", "obsidian", "claude"],
+  "license": "MIT",
+  "dependencies": {
+    "open": "^10.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0"
+  }
+}
