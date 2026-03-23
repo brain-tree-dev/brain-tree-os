@@ -18,6 +18,7 @@ import {
 interface ExecutionStep {
   id: string;
   phase_number: number;
+  phase_title: string;
   step_number: number;
   title: string;
   status: 'not_started' | 'in_progress' | 'completed' | 'blocked';
@@ -42,13 +43,6 @@ interface RightPaneProps {
   collapsed: boolean;
   onToggleCollapsed: () => void;
 }
-
-const PHASE_TITLES: Record<number, string> = {
-  1: 'Foundation',
-  2: 'Brain View',
-  3: 'MCP + CLI',
-  4: 'Polish + Launch',
-};
 
 const STATUS_BADGE: Record<
   ExecutionStep['status'],
@@ -78,9 +72,11 @@ function groupByPhase(steps: ExecutionStep[]): PhaseGroup[] {
   const groups: PhaseGroup[] = [];
   for (const [phase, phaseSteps] of map) {
     phaseSteps.sort((a, b) => a.step_number - b.step_number);
+    // Derive phase title from step data (all steps in a phase share the same phase_title)
+    const phaseTitle = phaseSteps[0]?.phase_title || `Phase ${phase}`;
     groups.push({
       phase,
-      title: PHASE_TITLES[phase] ?? `Phase ${phase}`,
+      title: phaseTitle,
       steps: phaseSteps,
       completedCount: phaseSteps.filter((s) => s.status === 'completed').length,
     });

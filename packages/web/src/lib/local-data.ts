@@ -28,6 +28,7 @@ export interface BrainLink {
 export interface ExecutionStep {
   id: string
   phase_number: number
+  phase_title: string
   step_number: number
   title: string
   status: 'not_started' | 'in_progress' | 'completed' | 'blocked'
@@ -188,6 +189,7 @@ export function getExecutionSteps(brainPath: string, files: BrainFile[]): Execut
     return parsed.map((step, idx) => ({
       id: `step-${idx}`,
       phase_number: step.phase,
+      phase_title: step.phaseTitle,
       step_number: Number(step.stepNumber),
       title: step.title,
       status: step.status as ExecutionStep['status'],

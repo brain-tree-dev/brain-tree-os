@@ -483,15 +483,35 @@ You can also point an agent here directly: "analyze the mockup in Assets/homepag
 Use descriptive names: competitor-pricing-screenshot.png not IMG_4521.png
 ```
 
-### Step 6: Create Execution Plan or Working Rhythms
+### Step 6: Create Execution Plan (ALWAYS — at root level)
 
-If the user is building something with clear phases (product, project, course), create `Execution-Plan/Execution-Plan.md` with:
+ALWAYS create `Execution-Plan.md` at the brain ROOT (not inside a subfolder). Every brain needs an execution plan, even if you don't have enough information yet. Create the best plan you can with what you know. The user will refine it over time through `/resume-braintree` and `/wrap-up-braintree` sessions.
+
+Create `Execution-Plan.md` (root level) with:
 - Start with `> Part of [[BRAIN-INDEX]]`
-- Numbered phases with milestones
-- Steps with: step ID, title, description, status (not_started), dependencies
-- Parallel groups where applicable
+- A brief overview of what the plan covers
+- Numbered phases with descriptive titles
+- Each phase has a markdown table with columns: `| Step | Task | Status | Dependencies | Details |`
+- Status values: `not_started`, `in_progress`, `done`, `blocked`
+- Acceptance criteria per phase (what "done" looks like)
 
-If the brain is ongoing/operational, create `Working-Rhythms.md` with:
+The execution plan powers the right-side panel in the brain viewer. It MUST use the table format with `Step` and `Task` columns so the parser can display it. Example:
+
+```markdown
+## Phase 1: Foundation (Weeks 1-2)
+
+**Goal**: Set up the basics and validate the approach.
+
+| Step | Task | Status | Dependencies | Details |
+|------|------|--------|--------------|---------|
+| 1.1 | Define core concept | not_started | None | Clarify the vision and scope |
+| 1.2 | Research competitors | not_started | 1.1 | Analyze 3-5 alternatives |
+| 1.3 | Set up project structure | not_started | 1.1 | Initialize repo and tooling |
+```
+
+If the brain is ongoing/operational (not a build project), still create the execution plan but frame it as milestones and goals rather than build phases. Every brain benefits from visible progress tracking.
+
+Additionally, if the brain is ongoing/operational, ALSO create `Working-Rhythms.md` with:
 - Start with `> Part of [[BRAIN-INDEX]]`
 - Daily/weekly/monthly recurring workflows
 - Review cadences

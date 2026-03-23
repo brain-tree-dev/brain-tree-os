@@ -6,15 +6,26 @@
 
 export interface ParsedStep {
   phase: number
+  phaseTitle: string
   stepNumber: string
   title: string
   status: string
   tasks: Array<{ done: boolean; text: string }>
 }
 
+function normalizeStatus(raw: string): string {
+  const s = raw.toLowerCase().replace(/\s+/g, '_')
+  if (s === 'done' || s === 'complete' || s === 'completed') return 'completed'
+  if (s === 'in_progress' || s === 'in progress' || s === 'wip') return 'in_progress'
+  if (s === 'blocked') return 'blocked'
+  if (['not_started', 'todo', 'pending', 'not started'].includes(s)) return 'not_started'
+  return 'not_started'
+}
+
 export function parseExecutionPlan(content: string): ParsedStep[] {
   const steps: ParsedStep[] = []
   let currentPhase = 0
+  let currentPhaseTitle = ''
   const lines = content.split('\n')
   let i = 0
 
@@ -22,9 +33,10 @@ export function parseExecutionPlan(content: string): ParsedStep[] {
     const line = lines[i]
 
     // Detect phase headers: "## Phase 1: ..." or "# Phase 1: ..."
-    const phaseMatch = line.match(/^#{1,3}\s+Phase\s+(\d+)\s*[:-]/i)
+    const phaseMatch = line.match(/^#{1,3}\s+Phase\s+(\d+)\s*[:-]\s*(.*)/i)
     if (phaseMatch) {
       currentPhase = parseInt(phaseMatch[1], 10)
+      currentPhaseTitle = phaseMatch[2]?.trim() || `Phase ${currentPhase}`
       i++
 
       // Check if next lines contain a markdown table with steps
@@ -34,14 +46,15 @@ export function parseExecutionPlan(content: string): ParsedStep[] {
           i++
           continue
         }
-        // Check for table header row with Step/Title columns
-        if (tl.startsWith('|') && /step/i.test(tl) && /title/i.test(tl)) {
+        // Check for table header row with Step column + a title/task column
+        if (tl.startsWith('|') && /step/i.test(tl) && (/title/i.test(tl) || /task/i.test(tl))) {
           const headers = tl
             .split('|')
             .map((h) => h.trim().toLowerCase())
             .filter(Boolean)
           const stepCol = headers.indexOf('step')
-          const titleCol = headers.indexOf('title')
+          // Accept both "title" and "task" as the task name column
+          const titleCol = headers.indexOf('title') >= 0 ? headers.indexOf('title') : headers.indexOf('task')
           const statusCol = headers.indexOf('status')
 
           // Skip separator row
@@ -73,11 +86,10 @@ export function parseExecutionPlan(content: string): ParsedStep[] {
             if (stepNum && title && /^\d/.test(stepNum)) {
               steps.push({
                 phase: currentPhase,
+                phaseTitle: currentPhaseTitle,
                 stepNumber: stepNum,
                 title,
-                status: ['completed', 'in_progress', 'not_started', 'blocked'].includes(status)
-                  ? status
-                  : 'not_started',
+                status: normalizeStatus(status),
                 tasks: [],
               })
             }
@@ -123,7 +135,7 @@ export function parseExecutionPlan(content: string): ParsedStep[] {
         i++
       }
 
-      steps.push({ phase: currentPhase, stepNumber, title, status, tasks })
+      steps.push({ phase: currentPhase, phaseTitle: currentPhaseTitle, stepNumber, title, status: normalizeStatus(status), tasks })
       continue
     }
 

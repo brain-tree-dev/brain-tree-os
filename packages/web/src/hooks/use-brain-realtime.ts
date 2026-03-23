@@ -5,7 +5,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 interface BrainFile { id: string; path: string }
 interface BrainLink { source_file_id: string; target_path: string }
 interface ExecutionStep {
-  id: string; phase_number: number; step_number: number; title: string;
+  id: string; phase_number: number; phase_title: string; step_number: number; title: string;
   status: 'not_started' | 'in_progress' | 'completed' | 'blocked';
   tasks_json: Array<{ done: boolean; text: string }> | null;
 }
