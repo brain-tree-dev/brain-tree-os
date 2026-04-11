@@ -18,7 +18,7 @@ updated: 2026-03-12
 - [[Execution-Plan]] — Step-by-step build + launch plan (source of truth)
 - [[Security-Audit]] — Pre-launch security audit (4 critical, 9 high findings)
 - [[Company]] — Project overview
-- [[CLAUDE.md]] — Agent instructions
+- [[BRAIN.md]] — Agent instructions
 
 ## Departments
 

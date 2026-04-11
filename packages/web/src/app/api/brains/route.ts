@@ -17,7 +17,7 @@ export async function GET() {
     path: demoBrainPath,
     fileCount: demoFiles.length,
     departmentCount: rootFolders.size,
-    agentCount: demoFiles.filter((f) => f.path.startsWith('.claude/agents/')).length,
+    agentCount: demoFiles.filter((f) => f.path.startsWith('.braintree/agents/')).length,
     rootFolderColors,
     is_demo: true,
   }
@@ -31,7 +31,7 @@ export async function GET() {
       ...brain,
       fileCount: files.length,
       departmentCount: folders.size,
-      agentCount: files.filter((f) => f.path.startsWith('.claude/agents/')).length,
+      agentCount: files.filter((f) => f.path.startsWith('.braintree/agents/')).length,
       rootFolderColors: Array.from(folders).sort().map((f) => cMap.get(f) ?? '#64748B'),
       is_demo: false,
     }

@@ -10,7 +10,7 @@ I got tired of it.
 
 ## the solution
 
-I turned an Obsidian vault into a persistent brain for Claude Code. Not a prompt template. Not a system message. A full company structure with departments, execution plans, agent personas, and custom commands, all wired into Claude Code via `CLAUDE.md` and the `.claude/` directory.
+I turned an Obsidian vault into a persistent brain for Claude Code. Not a prompt template. Not a system message. A full company structure with departments, execution plans, agent personas, and custom commands, all wired into Claude Code via `BRAIN.md` and the `.claude/` directory.
 
 The result: 34 sessions across 6 days. Zero context loss between any of them. Claude picked up exactly where it left off every single time.
 
@@ -32,7 +32,7 @@ clsh-brain/
 ├── 06_Legal/             # Licensing, privacy, security
 ├── Handoffs/             # Session handoff notes (context transfer between sessions)
 ├── Templates/            # Reusable note templates
-├── CLAUDE.md             # Main agent instructions (Claude Code reads this automatically)
+├── BRAIN.md             # Main agent instructions (Claude Code reads this automatically)
 ├── Execution-Plan.md     # Step-by-step build plan with dependencies + parallel groups
 └── VAULT-INDEX.md        # Navigation hub for the entire vault
 ```
@@ -54,7 +54,7 @@ These live in `.claude/commands/` and are available as slash commands in Claude 
 
 ## agent personas
 
-Seven agent personas in `.claude/agents/`, each specialized for their domain:
+Seven agent personas in `.braintree/agents/`, each specialized for their domain:
 
 | Agent | Role |
 |-------|------|
@@ -117,15 +117,15 @@ Each agent works in an isolated git worktree so they don't conflict. The leader 
 ## how to use this for YOUR project
 
 1. **Clone this repo** into your project workspace
-2. **Edit `CLAUDE.md`** with your project's description, tech stack, and context
+2. **Edit `BRAIN.md`** with your project's description, tech stack, and context
 3. **Edit `VAULT-INDEX.md`** with your project's departments and status
 4. **Edit `Execution-Plan.md`** with your build steps, dependencies, and parallel groups
-5. **Customize the agents** in `.claude/agents/` for your team structure
+5. **Customize the agents** in `.braintree/agents/` for your team structure
 6. **Start a Claude Code session** in the vault directory
 7. **Run `/resume`** to see what's next
 8. **End every session with `/wrap-up`** to preserve context
 
-The key insight: Claude Code automatically reads `CLAUDE.md` when you open a session. That file points to the execution plan, which points to the departments, which point to the specific files. The entire vault becomes Claude's persistent memory.
+The key insight: Claude Code automatically reads `BRAIN.md` when you open a session. That file points to the execution plan, which points to the departments, which point to the specific files. The entire vault becomes Claude's persistent memory.
 
 ## what's next
 

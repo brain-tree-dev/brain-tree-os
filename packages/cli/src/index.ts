@@ -8,6 +8,7 @@ import * as net from 'node:net'
 
 const CONFIG_DIR = path.join(os.homedir(), '.braintree-os')
 const COMMANDS_DIR = path.join(os.homedir(), '.claude', 'commands')
+const UNIVERSAL_COMMANDS_DIR = path.join(os.homedir(), '.braintree-os', 'commands')
 const SERVER_JSON = path.join(CONFIG_DIR, 'server.json')
 
 const VERSION = '0.1.0'
@@ -22,6 +23,7 @@ function ensureConfigDir() {
 
 async function installCommands(): Promise<number> {
   fs.mkdirSync(COMMANDS_DIR, { recursive: true })
+  fs.mkdirSync(UNIVERSAL_COMMANDS_DIR, { recursive: true })
   const commandsSource = path.join(__dirname, '..', 'commands')
   if (!fs.existsSync(commandsSource)) return 0
 
@@ -29,6 +31,9 @@ async function installCommands(): Promise<number> {
   for (const file of files) {
     const dest = path.join(COMMANDS_DIR, file)
     fs.copyFileSync(path.join(commandsSource, file), dest)
+    
+    const uniDest = path.join(UNIVERSAL_COMMANDS_DIR, file)
+    fs.copyFileSync(path.join(commandsSource, file), uniDest)
   }
   return files.length
 }
@@ -81,7 +86,7 @@ function showWelcome(port: number, commandCount: number) {
   console.log('')
   console.log(`  BrainTree OS v${VERSION}`)
   console.log('')
-  console.log(`  > ${commandCount} commands installed to ~/.claude/commands/`)
+  console.log(`  > ${commandCount} commands installed to ~/.braintree-os/commands/ and ~/.claude/commands/`)
   console.log(`  > Server running at ${url}`)
   console.log('')
   console.log('  +-----------------------------------------------------+')
@@ -91,10 +96,12 @@ function showWelcome(port: number, commandCount: number) {
   console.log('  |  1. Open a new terminal                              |')
   console.log('  |  2. Create a project folder:                         |')
   console.log('  |     mkdir -p ~/brains/my-project                     |')
-  console.log('  |  3. Start Claude Code there:                         |')
+  console.log('  |  3. Start your AI Agent there (e.g. Claude Code):    |')
   console.log('  |     cd ~/brains/my-project && claude                 |')
   console.log('  |  4. Run the init command:                            |')
   console.log('  |     /init-braintree                                  |')
+  console.log('  |     (For other agents: write prompt to read          |')
+  console.log('  |      ~/.braintree-os/commands/init-braintree.md)     |')
   console.log('  |                                                      |')
   console.log('  |  Your brain will appear at the URL above.            |')
   console.log('  +-----------------------------------------------------+')
@@ -122,14 +129,14 @@ function showStatus() {
   const configFile = path.join(CONFIG_DIR, 'brains.json')
   if (!fs.existsSync(configFile)) {
     console.log('  No brains registered yet.')
-    console.log('  Run /init-braintree in Claude Code to create your first brain.')
+    console.log('  Ask your AI Agent to run init-braintree to create your first brain.')
     return
   }
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
   const brains = config.brains || []
   if (brains.length === 0) {
     console.log('  No brains registered yet.')
-    console.log('  Run /init-braintree in Claude Code to create your first brain.')
+    console.log('  Ask your AI Agent to run init-braintree to create your first brain.')
     return
   }
   console.log(`  Registered brains (${brains.length}):`)
