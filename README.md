@@ -55,13 +55,26 @@ This starts a local web server and opens a brain viewer in your browser. A demo 
 
 ### 2. Create your brain
 
-Open your AI agent (Claude Code, Antigravity, Gemini, Codex, etc.) in any project directory and run or ask it to execute:
-
+Open your AI agent (Claude Code, Antigravity, Gemini, Codex, etc.) in any project directory.
+- If your agent natively supports custom slash commands (e.g. Claude Code), simply run:
 ```
 /init-braintree
 ```
+- If your agent does not support slash commands, directly ask it to execute the underlying file instructions:
+```
+Read the initialization commands located at: ~/.braintree-os/commands/init-braintree.md
+```
 
 An interactive wizard asks about your project and generates a complete brain structure: departments, execution plan, agent personas, templates, and more.
+
+#### Backward Compatibility Support Matrix
+
+BrainTree OS has fully transitioned from `.claude/` to `.braintree/` defaults starting in `v0.2.0`, but is backwards compatible with existing brains:
+
+| Agent Directory Type | Supported? | Status | Notes |
+|---|---|---|---|
+| `.claude/agents/`, `.claude/commands/` | ✅ Yes | Deprecated | Legacy Brains are parsed efficiently. File counting reflects agents appropriately in the Web UI. |
+| `.braintree/agents/`, `.braintree/commands/` | ✅ Yes | Primary | This is the target standard for all new initialization procedures across all models. |
 
 <img src="docs/screenshots/claude-wizard.png" alt="BrainTree OS - Init wizard" width="756" />
 

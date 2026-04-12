@@ -11,7 +11,7 @@ const COMMANDS_DIR = path.join(os.homedir(), '.claude', 'commands')
 const UNIVERSAL_COMMANDS_DIR = path.join(os.homedir(), '.braintree-os', 'commands')
 const SERVER_JSON = path.join(CONFIG_DIR, 'server.json')
 
-const VERSION = '0.1.0'
+const VERSION = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')).version
 
 function ensureConfigDir() {
   fs.mkdirSync(CONFIG_DIR, { recursive: true })
@@ -28,14 +28,21 @@ async function installCommands(): Promise<number> {
   if (!fs.existsSync(commandsSource)) return 0
 
   const files = fs.readdirSync(commandsSource).filter(f => f.endsWith('.md'))
+  let successCount = 0
   for (const file of files) {
-    const dest = path.join(COMMANDS_DIR, file)
-    fs.copyFileSync(path.join(commandsSource, file), dest)
-    
-    const uniDest = path.join(UNIVERSAL_COMMANDS_DIR, file)
-    fs.copyFileSync(path.join(commandsSource, file), uniDest)
+    try {
+      const dest = path.join(COMMANDS_DIR, file)
+      fs.copyFileSync(path.join(commandsSource, file), dest)
+      
+      const uniDest = path.join(UNIVERSAL_COMMANDS_DIR, file)
+      fs.copyFileSync(path.join(commandsSource, file), uniDest)
+      
+      successCount++
+    } catch (err) {
+      console.warn(`  Warning: Failed to install command ${file}. ${(err as Error).message}`)
+    }
   }
-  return files.length
+  return successCount
 }
 
 async function findFreePort(preferred: number): Promise<number> {
@@ -96,12 +103,14 @@ function showWelcome(port: number, commandCount: number) {
   console.log('  |  1. Open a new terminal                              |')
   console.log('  |  2. Create a project folder:                         |')
   console.log('  |     mkdir -p ~/brains/my-project                     |')
-  console.log('  |  3. Start your AI Agent there (e.g. Claude Code):    |')
-  console.log('  |     cd ~/brains/my-project && claude                 |')
+  console.log('  |  3. Start your AI Agent there:                       |')
+  console.log('  |     cd ~/brains/my-project && claude (or equivalent) |')
   console.log('  |  4. Run the init command:                            |')
-  console.log('  |     /init-braintree                                  |')
-  console.log('  |     (For other agents: write prompt to read          |')
-  console.log('  |      ~/.braintree-os/commands/init-braintree.md)     |')
+  console.log('  |     - If using Claude Code:                          |')
+  console.log('  |       /init-braintree                                |')
+  console.log('  |     - If using Cursor, Antigravity, or others:       |')
+  console.log('  |       Ask it to: "read and follow instructions in    |')
+  console.log('  |       ~/.braintree-os/commands/init-braintree.md"    |')
   console.log('  |                                                      |')
   console.log('  |  Your brain will appear at the URL above.            |')
   console.log('  +-----------------------------------------------------+')

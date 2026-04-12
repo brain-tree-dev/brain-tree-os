@@ -164,6 +164,10 @@ export function scanBrainFiles(brainPath: string): BrainFile[] {
   return files.sort((a, b) => a.path.localeCompare(b.path))
 }
 
+export function countAgents(files: BrainFile[]): number {
+  return files.filter((f) => f.path.startsWith('.braintree/agents/') || f.path.startsWith('.claude/agents/')).length
+}
+
 // ── Wikilink parsing ─────────────────────────────────
 
 export function parseBrainLinks(brainPath: string, files: BrainFile[]): BrainLink[] {

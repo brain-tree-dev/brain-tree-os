@@ -343,9 +343,9 @@ BRAIN.md must:
 
 ## Concurrency & Orchestration
 If multiple agents are working in this brain simultaneously, avoid race conditions on shared files (like `Execution-Plan.md`, `BRAIN-INDEX.md`, or `Handoffs/Handoffs.md`):
-- ALWAYS execute a fresh read of the file immediately before writing any updates.
-- If the file has changed since you last read it, merge your changes carefully.
-- Do not blindly overwrite central hubs.
+- **ALWAYS RE-READ SHARED FILES IMMEDIATELY BEFORE WRITING.**
+- **Strictly use Append-Only Logs OR Explicit Version Control:** If updating global trackers, append your update rather than overwriting existing statuses. If overwrite is necessary, verify you are not clobbering an unseen merge from another concurrently executing agent.
+- **Maintain your assigned Persona/Role scope.** Do not modify domains actively owned by parallel agents.
 
 ## Assets
 The [[Assets]] folder contains images, videos, PDFs, and other media. When working on any task, check Assets/ for related materials. You can analyze images, read PDFs, and process any file dropped there.

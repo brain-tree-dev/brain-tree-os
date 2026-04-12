@@ -10,7 +10,7 @@ I got tired of it.
 
 ## the solution
 
-I turned an Obsidian vault into a persistent brain for Claude Code. Not a prompt template. Not a system message. A full company structure with departments, execution plans, agent personas, and custom commands, all wired into Claude Code via `BRAIN.md` and the `.claude/` directory.
+I turned an Obsidian vault into a persistent brain for Claude Code. Not a prompt template. Not a system message. A full company structure with departments, execution plans, agent personas, and custom commands, all wired into Claude Code via `BRAIN.md` and the `.braintree/` directory.
 
 The result: 34 sessions across 6 days. Zero context loss between any of them. Claude picked up exactly where it left off every single time.
 
@@ -20,7 +20,7 @@ This is that vault.
 
 ```
 clsh-brain/
-├── .claude/
+├── .braintree/
 │   ├── agents/           # 7 AI agent personas (rnd-lead, backend-engineer, etc.)
 │   └── commands/         # 8 custom slash commands (/resume, /wrap-up, etc.)
 ├── 00_Company/           # Identity, vision, mission
@@ -39,7 +39,7 @@ clsh-brain/
 
 ## the commands
 
-These live in `.claude/commands/` and are available as slash commands in Claude Code:
+These live in `.braintree/commands/` and are available as commands in your agent:
 
 | Command | What it does |
 |---------|-------------|

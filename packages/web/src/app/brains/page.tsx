@@ -1,6 +1,6 @@
 export const dynamic = 'force-dynamic'
 
-import { listBrains, getDemoBrainPath, DEMO_BRAIN, scanBrainFiles } from '@/lib/local-data'
+import { listBrains, getDemoBrainPath, DEMO_BRAIN, scanBrainFiles, countAgents } from '@/lib/local-data'
 import { buildDepartmentColorMap } from '@/components/brain/department-colors'
 import BrainsPageClient from './brains-page-client'
 
@@ -29,7 +29,7 @@ function getBrainData(): { demos: BrainCardData[]; userBrains: BrainCardData[] }
     is_demo: true,
     fileCount: demoFiles.length,
     departmentCount: rootFolders.size,
-    agentCount: demoFiles.filter((f) => f.path.startsWith('.braintree/agents/')).length,
+    agentCount: countAgents(demoFiles),
     rootFolderColors,
   }
 
@@ -44,7 +44,7 @@ function getBrainData(): { demos: BrainCardData[]; userBrains: BrainCardData[] }
       is_demo: false,
       fileCount: files.length,
       departmentCount: folders.size,
-      agentCount: files.filter((f) => f.path.startsWith('.braintree/agents/')).length,
+      agentCount: countAgents(files),
       rootFolderColors: Array.from(folders).sort().map((f) => cMap.get(f) ?? '#64748B'),
     }
   })
