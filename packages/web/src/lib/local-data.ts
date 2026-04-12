@@ -141,8 +141,8 @@ export function scanBrainFiles(brainPath: string): BrainFile[] {
     }
 
     for (const entry of entries) {
-      // Skip hidden dirs (except .claude)
-      if (entry.name.startsWith('.') && entry.name !== '.claude') continue
+      // Skip hidden dirs (except .claude and .braintree)
+      if (entry.name.startsWith('.') && entry.name !== '.claude' && entry.name !== '.braintree') continue
       // Skip node_modules
       if (entry.name === 'node_modules') continue
 
@@ -162,6 +162,10 @@ export function scanBrainFiles(brainPath: string): BrainFile[] {
 
   walk(brainPath, '')
   return files.sort((a, b) => a.path.localeCompare(b.path))
+}
+
+export function countAgents(files: BrainFile[]): number {
+  return files.filter((f) => f.path.startsWith('.braintree/agents/') || f.path.startsWith('.claude/agents/')).length
 }
 
 // ── Wikilink parsing ─────────────────────────────────

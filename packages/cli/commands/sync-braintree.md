@@ -130,4 +130,4 @@ End with a brief health assessment:
 - "Your brain is mostly healthy, with a few things to tidy up." (3-5 issues)
 - "Your brain needs some attention. I fixed what I could, but there are some decisions only you can make." (6+ issues)
 
-Use Grep to verify that key terms (project name, product name, key concepts from CLAUDE.md) appear consistently across files. Flag any spelling inconsistencies.
+Use Grep to verify that key terms (project name, product name, key concepts from BRAIN.md) appear consistently across files. Flag any spelling inconsistencies.

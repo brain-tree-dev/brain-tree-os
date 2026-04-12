@@ -45,7 +45,7 @@ You are an AI agent working on the clsh.dev project vault. This file is your pri
 | `Handoffs/` | Session handoff notes (one per session, dated) |
 | `Templates/` | Reusable note templates |
 | `Docs/` | Source documents (Complete Technical Plan) |
-| `.claude/agents/` | Agent persona files |
+| `.braintree/agents/` | Agent persona files |
 | `.claude/commands/` | Custom Claude Code commands |
 
 ## Project Context

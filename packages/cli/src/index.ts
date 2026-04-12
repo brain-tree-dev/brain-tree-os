@@ -8,9 +8,10 @@ import * as net from 'node:net'
 
 const CONFIG_DIR = path.join(os.homedir(), '.braintree-os')
 const COMMANDS_DIR = path.join(os.homedir(), '.claude', 'commands')
+const UNIVERSAL_COMMANDS_DIR = path.join(os.homedir(), '.braintree-os', 'commands')
 const SERVER_JSON = path.join(CONFIG_DIR, 'server.json')
 
-const VERSION = '0.1.0'
+const VERSION = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')).version
 
 function ensureConfigDir() {
   fs.mkdirSync(CONFIG_DIR, { recursive: true })
@@ -22,15 +23,26 @@ function ensureConfigDir() {
 
 async function installCommands(): Promise<number> {
   fs.mkdirSync(COMMANDS_DIR, { recursive: true })
+  fs.mkdirSync(UNIVERSAL_COMMANDS_DIR, { recursive: true })
   const commandsSource = path.join(__dirname, '..', 'commands')
   if (!fs.existsSync(commandsSource)) return 0
 
   const files = fs.readdirSync(commandsSource).filter(f => f.endsWith('.md'))
+  let successCount = 0
   for (const file of files) {
-    const dest = path.join(COMMANDS_DIR, file)
-    fs.copyFileSync(path.join(commandsSource, file), dest)
+    try {
+      const dest = path.join(COMMANDS_DIR, file)
+      fs.copyFileSync(path.join(commandsSource, file), dest)
+      
+      const uniDest = path.join(UNIVERSAL_COMMANDS_DIR, file)
+      fs.copyFileSync(path.join(commandsSource, file), uniDest)
+      
+      successCount++
+    } catch (err) {
+      console.warn(`  Warning: Failed to install command ${file}. ${(err as Error).message}`)
+    }
   }
-  return files.length
+  return successCount
 }
 
 async function findFreePort(preferred: number): Promise<number> {
@@ -81,7 +93,7 @@ function showWelcome(port: number, commandCount: number) {
   console.log('')
   console.log(`  BrainTree OS v${VERSION}`)
   console.log('')
-  console.log(`  > ${commandCount} commands installed to ~/.claude/commands/`)
+  console.log(`  > ${commandCount} commands installed to ~/.braintree-os/commands/ and ~/.claude/commands/`)
   console.log(`  > Server running at ${url}`)
   console.log('')
   console.log('  +-----------------------------------------------------+')
@@ -91,10 +103,14 @@ function showWelcome(port: number, commandCount: number) {
   console.log('  |  1. Open a new terminal                              |')
   console.log('  |  2. Create a project folder:                         |')
   console.log('  |     mkdir -p ~/brains/my-project                     |')
-  console.log('  |  3. Start Claude Code there:                         |')
-  console.log('  |     cd ~/brains/my-project && claude                 |')
+  console.log('  |  3. Start your AI Agent there:                       |')
+  console.log('  |     cd ~/brains/my-project && claude (or equivalent) |')
   console.log('  |  4. Run the init command:                            |')
-  console.log('  |     /init-braintree                                  |')
+  console.log('  |     - If using Claude Code:                          |')
+  console.log('  |       /init-braintree                                |')
+  console.log('  |     - If using Cursor, Antigravity, or others:       |')
+  console.log('  |       Ask it to: "read and follow instructions in    |')
+  console.log('  |       ~/.braintree-os/commands/init-braintree.md"    |')
   console.log('  |                                                      |')
   console.log('  |  Your brain will appear at the URL above.            |')
   console.log('  +-----------------------------------------------------+')
@@ -122,14 +138,14 @@ function showStatus() {
   const configFile = path.join(CONFIG_DIR, 'brains.json')
   if (!fs.existsSync(configFile)) {
     console.log('  No brains registered yet.')
-    console.log('  Run /init-braintree in Claude Code to create your first brain.')
+    console.log('  Ask your AI Agent to run init-braintree to create your first brain.')
     return
   }
   const config = JSON.parse(fs.readFileSync(configFile, 'utf8'))
   const brains = config.brains || []
   if (brains.length === 0) {
     console.log('  No brains registered yet.')
-    console.log('  Run /init-braintree in Claude Code to create your first brain.')
+    console.log('  Ask your AI Agent to run init-braintree to create your first brain.')
     return
   }
   console.log(`  Registered brains (${brains.length}):`)

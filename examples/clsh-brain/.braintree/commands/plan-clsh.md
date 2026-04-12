@@ -14,7 +14,7 @@ Verify all steps in "Blocked By" are COMPLETE. If not, warn the user and show wh
 - Read the relevant vault files listed under "Vault Updates" for that step
 - Read the technical plan in `Docs/compass_artifact_*.md` for implementation details
 - Read any prerequisite vault files referenced in the step's instructions
-- Read the agent persona file from `.claude/agents/` for the assigned agent
+- Read the agent persona file from `.braintree/agents/` for the assigned agent
 
 ## 4. Output Implementation Plan
 

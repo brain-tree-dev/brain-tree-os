@@ -243,7 +243,7 @@ The brain uses a **two-level hierarchy** for wikilinks. This is critical for a c
 
 **Level 1: BRAIN-INDEX links to root folders and root files ONLY**
 - BRAIN-INDEX links to folder index files: `[[Vision]]`, `[[Build]]`, `[[Handoffs]]`, etc.
-- BRAIN-INDEX links to root-level files: `[[CLAUDE.md]]`, `[[Execution-Plan]]`, `[[Assets]]`
+- BRAIN-INDEX links to root-level files: `[[BRAIN.md]]`, `[[Execution-Plan]]`, `[[Assets]]`
 - BRAIN-INDEX does NOT link to individual content files inside folders
 
 **Level 2: Folder index files link to their children**
@@ -289,7 +289,7 @@ BRAIN-INDEX.md must include ALL of these sections:
 [... one entry per TOP-LEVEL FOLDER, each as a wikilink to the folder index file]
 
 ## Root Files
-- [[CLAUDE.md]] - Brain DNA and agent instructions
+- [[BRAIN.md]] - Brain DNA and agent instructions
 - [[Execution-Plan]] or [[Working-Rhythms]] - Build roadmap / recurring workflows
 - [[Assets]] - Images, videos, PDFs, and other media
 
@@ -309,11 +309,11 @@ BRAIN-INDEX.md must include ALL of these sections:
 
 **CRITICAL**: You will come back and UPDATE this file at the end of the build (Step 8) to ensure all root folders and root files are linked. Do not leave any folder index unlinked.
 
-### Step 2: Create CLAUDE.md
+### Step 2: Create BRAIN.md
 
-This is the brain's DNA. Every AI agent reads this file first. Use Write to create `CLAUDE.md` at the brain root.
+This is the brain's DNA. Every AI agent reads this file first. Use Write to create `BRAIN.md` at the brain root.
 
-CLAUDE.md must:
+BRAIN.md must:
 - Start with `> Part of [[BRAIN-INDEX]]` (connects it to the hub)
 - Include ALL of these sections:
 
@@ -341,11 +341,17 @@ CLAUDE.md must:
 - Update Handoffs/ at the end of every work session
 - Reference the [[Execution-Plan]] as the source of truth for build order (if applicable)
 
+## Concurrency & Orchestration
+If multiple agents are working in this brain simultaneously, avoid race conditions on shared files (like `Execution-Plan.md`, `BRAIN-INDEX.md`, or `Handoffs/Handoffs.md`):
+- **ALWAYS RE-READ SHARED FILES IMMEDIATELY BEFORE WRITING.**
+- **Strictly use Append-Only Logs OR Explicit Version Control:** If updating global trackers, append your update rather than overwriting existing statuses. If overwrite is necessary, verify you are not clobbering an unseen merge from another concurrently executing agent.
+- **Maintain your assigned Persona/Role scope.** Do not modify domains actively owned by parallel agents.
+
 ## Assets
 The [[Assets]] folder contains images, videos, PDFs, and other media. When working on any task, check Assets/ for related materials. You can analyze images, read PDFs, and process any file dropped there.
 
 ## Agent Personas
-Available specialized agents in .claude/agents/:
+Available specialized agents in .braintree/agents/:
 [List each agent as a wikilink: [[agent-name]] - one-line purpose]
 
 ## Commands
@@ -361,7 +367,7 @@ Available specialized agents in .claude/agents/:
 
 ### Step 3: Create Agent Personas
 
-Use Write to create 2-4 agent persona files in `.claude/agents/`. Each persona must be specifically useful for THIS user's role and goals. Reference the user's actual project and context in each persona.
+Use Write to create 2-4 agent persona files in `.braintree/agents/`. Each persona must be specifically useful for THIS user's role and goals. Reference the user's actual project and context in each persona.
 
 Each persona file:
 ```
@@ -547,7 +553,7 @@ Create `Handoffs/handoff-000.md` with a summary of the initialization session. S
 
 This is the most important step. Go back and UPDATE `BRAIN-INDEX.md` using Edit to ensure it links to all ROOT folders and root files. Check:
 - Every folder index is listed under "## Folders" as `[[FolderName]]` (including `[[Handoffs]]`)
-- `[[CLAUDE.md]]` is listed under "## Root Files"
+- `[[BRAIN.md]]` is listed under "## Root Files"
 - `[[Execution-Plan]]` or `[[Working-Rhythms]]` is listed under "## Root Files"
 - `[[Assets]]` is listed under "## Root Files"
 - Every agent persona is listed under "## Agents" as `[[agent-name]]`

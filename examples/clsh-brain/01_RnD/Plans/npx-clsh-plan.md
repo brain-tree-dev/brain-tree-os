@@ -296,7 +296,7 @@ npx clsh-dev
 
 | # | File |
 |---|------|
-| 27 | `CLAUDE.md` (vault) |
+| 27 | `BRAIN.md` (vault) |
 | 28 | `00_Company/Company.md` |
 | 29 | `00_Company/Vision-Mission.md` |
 | 30 | `02_Product/Vision.md` |

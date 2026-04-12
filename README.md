@@ -41,7 +41,7 @@ AI coding assistants are powerful, but they have no memory between sessions. Eve
 
 ## Quick Start
 
-> **Requires [Node.js 20+](https://nodejs.org) and [Claude Code](https://docs.anthropic.com/en/docs/claude-code)**
+> **Requires [Node.js 20+](https://nodejs.org). Works with Antigravity, Gemini, Codex, Claude Code, Cursor, and other AI agents.**
 
 ### 1. Start the brain viewer
 
@@ -55,15 +55,28 @@ This starts a local web server and opens a brain viewer in your browser. A demo 
 
 ### 2. Create your brain
 
-Open Claude Code in any project directory and run:
-
+Open your AI agent (Claude Code, Antigravity, Gemini, Codex, etc.) in any project directory.
+- If your agent natively supports custom slash commands (e.g. Claude Code), simply run:
 ```
 /init-braintree
+```
+- If your agent does not support slash commands, directly ask it to execute the underlying file instructions:
+```
+Read the initialization commands located at: ~/.braintree-os/commands/init-braintree.md
 ```
 
 An interactive wizard asks about your project and generates a complete brain structure: departments, execution plan, agent personas, templates, and more.
 
-<img src="docs/screenshots/claude-wizard.png" alt="BrainTree OS - Init wizard in Claude Code" width="756" />
+#### Backward Compatibility Support Matrix
+
+BrainTree OS has fully transitioned from `.claude/` to `.braintree/` defaults starting in `v0.2.0`, but is backwards compatible with existing brains:
+
+| Agent Directory Type | Supported? | Status | Notes |
+|---|---|---|---|
+| `.claude/agents/`, `.claude/commands/` | ✅ Yes | Deprecated | Legacy Brains are parsed efficiently. File counting reflects agents appropriately in the Web UI. |
+| `.braintree/agents/`, `.braintree/commands/` | ✅ Yes | Primary | This is the target standard for all new initialization procedures across all models. |
+
+<img src="docs/screenshots/claude-wizard.png" alt="BrainTree OS - Init wizard" width="756" />
 
 ### 3. Start working
 
@@ -71,7 +84,7 @@ An interactive wizard asks about your project and generates a complete brain str
 /resume-braintree
 ```
 
-Claude reads your brain, shows you what was done last session, what's in progress, and recommends what to tackle next. When you're done:
+Your AI agent reads your brain, shows you what was done last session, what's in progress, and recommends what to tackle next. When you're done:
 
 ```
 /wrap-up-braintree
@@ -90,7 +103,7 @@ This updates your brain files, creates a handoff document, and logs your progres
   +----------------------------+
   |  CLI                       |
   |  1. Installs 8 commands    |
-  |     to ~/.claude/commands/ |
+  |     to ~/.braintree-os/    |
   |  2. Starts Next.js server  |
   |  3. Opens browser          |
   +----------------------------+
@@ -100,7 +113,7 @@ This updates your brain files, creates a handoff document, and logs your progres
   |  Brain Viewer (localhost)  |<--->|  Your Project      |
   |   - Graph visualization    |     |    .braintree/     |
   |   - File tree browser      |     |    BRAIN-INDEX.md  |
-  |   - Markdown viewer        |     |    CLAUDE.md       |
+  |   - Markdown viewer        |     |    BRAIN.md        |
   |   - Execution plan pane    |     |    00_Company/     |
   |   - Session timeline       |     |    01_RnD/         |
   +----------------------------+     |    02_Product/     |
@@ -110,7 +123,7 @@ This updates your brain files, creates a handoff document, and logs your progres
               +--- live updates via chokidar ---+
 ```
 
-When you create or edit files through Claude Code, they appear in the browser instantly. The viewer watches your filesystem and updates the graph, file tree, and content in real time.
+When you create or edit files through an AI agent, they appear in the browser instantly. The viewer watches your filesystem and updates the graph, file tree, and content in real time.
 
 ---
 
@@ -123,7 +136,7 @@ my-project/
 ├── .braintree/
 │   └── brain.json              # Brain metadata (id, name, description)
 ├── BRAIN-INDEX.md              # Central hub linking to everything
-├── CLAUDE.md                   # AI agent instructions ("brain DNA")
+├── BRAIN.md                    # AI agent instructions ("brain DNA")
 ├── Execution-Plan.md           # Build roadmap with phases and steps
 │
 ├── 00_Company/                 # Identity, vision, mission, values
@@ -147,7 +160,7 @@ my-project/
 │   └── handoff-002.md
 ├── Templates/                  # Reusable note templates
 ├── Assets/                     # Images, PDFs, reference files
-└── .claude/agents/             # AI agent persona files
+└── .braintree/agents/          # AI agent persona files
     ├── builder.md
     ├── strategist.md
     └── researcher.md
@@ -157,7 +170,7 @@ my-project/
 
 **BRAIN-INDEX.md** is the central hub. It links to every top-level folder and file. When your AI agent reads this first, it instantly understands the full project structure.
 
-**CLAUDE.md** contains the brain's "DNA": conventions, rules, and instructions that every AI agent follows. Think of it as the team handbook.
+**BRAIN.md** contains the brain's "DNA": conventions, rules, and instructions that every AI agent follows. Think of it as the team handbook.
 
 **Wikilinks** (`[[like this]]`) connect files into a knowledge graph. The viewer renders these as interactive nodes and edges. Every file links back to its parent via `> Part of [[ParentIndex]]`, creating a clean hierarchy with no orphan nodes.
 
@@ -165,13 +178,13 @@ my-project/
 
 **Handoffs** are session continuity documents. Each one captures what was done, decisions made, blockers found, and what to do next. This is what makes `/resume-braintree` so powerful.
 
-**Agent Personas** (in `.claude/agents/`) define specialized AI roles for your project. A builder focuses on code, a strategist on product decisions, a researcher on market analysis. Each has their own instructions and capabilities.
+**Agent Personas** (in `.braintree/agents/`) define specialized AI roles for your project. A builder focuses on code, a strategist on product decisions, a researcher on market analysis. Each has their own instructions and capabilities.
 
 ---
 
 ## Commands
 
-BrainTree installs 8 slash commands into Claude Code. These are the core of the workflow.
+BrainTree provides 8 core commands that guide your AI workflow.
 
 ### `/init-braintree`
 
@@ -192,7 +205,7 @@ The brain appears in the viewer in real time as files are created.
 **Resume work from where you left off.**
 
 The most important command. Every session starts here. It:
-1. Reads your full brain context (BRAIN-INDEX, CLAUDE.md, latest handoff, execution plan)
+1. Reads your full brain context (BRAIN-INDEX, BRAIN.md, latest handoff, execution plan)
 2. Shows what was accomplished last session
 3. Displays progress bars for each phase
 4. Lists the top unblocked steps ranked by priority
@@ -284,9 +297,9 @@ End-to-end feature management:
 ### Session 0: Create your brain
 
 ```
-$ npx brain-tree-os          # Start the viewer
-$ claude                      # Open Claude Code
-> /init-braintree             # Create your brain
+$ npx brain-tree-os           # Start the viewer
+$ agent-name                  # Open your AI agent (Claude, Antigravity, etc.)
+> run init-braintree          # Tell the agent to read ~/.braintree-os/commands/init-braintree.md
 ```
 
 The wizard asks questions and builds your brain in real time. Watch it appear in the browser as files are created.
@@ -342,7 +355,7 @@ Three-pane layout: file tree on the left, interactive D3.js graph in the center 
 
 ### Real-time Updates
 
-Files created or edited in Claude Code appear in the browser within seconds. The graph grows, the file tree updates, and content refreshes automatically via WebSocket.
+Files created or edited appear in the browser within seconds. The graph grows, the file tree updates, and content refreshes automatically via WebSocket.
 
 ---
 
@@ -403,11 +416,11 @@ BrainTree OS and brain-tree.ai use the same brain format. You can start locally 
 
 ## FAQ
 
-**Do I need Claude Code?**
-The brain viewer works without it, but the 8 slash commands are designed for Claude Code. They're what make the AI-assisted workflow possible.
+**Do I need a specific AI agent?**
+The brain viewer works without any AI, but the workflow is designed for AI agents like Antigravity, Gemini, Codex, Claude Code, and Cursor.
 
 **Can I use this with other AI tools?**
-The brain itself is just markdown files and folders. Any AI tool that can read and write files can work with a brain. The slash commands are Claude Code specific, but the brain format is universal.
+The brain itself is just markdown files and folders. Any AI tool that can read and write files can work with a brain. The command files are universal and can be parsed by any capable agent if directed to `~/.braintree-os/commands/`.
 
 **Where does my data go?**
 Nowhere. Everything stays on your local filesystem. BrainTree OS makes zero network requests. No telemetry, no analytics, no cloud sync.

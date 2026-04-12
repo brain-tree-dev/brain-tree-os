@@ -75,7 +75,7 @@ Wait for their answer before proceeding.
 Gather the full picture by reading brain files:
 
 1. Use Read on `BRAIN-INDEX.md` to understand the brain's structure, departments, and overall state.
-2. Use Read on `CLAUDE.md` to load the brain's DNA. This tells you the brain's purpose, structure, conventions, and available agents. Internalize this context for the entire session.
+2. Use Read on `BRAIN.md` to load the brain's DNA. This tells you the brain's purpose, structure, conventions, and available agents. Internalize this context for the entire session.
 3. Use Glob to find the latest handoff: `Handoffs/handoff-*.md` and sort by name to find the most recent one. Use Read on it to get the last session's summary, what was done, what was recommended next, and which files to focus on.
 4. Use Read on `Execution-Plan/Execution-Plan.md` (or wherever the execution plan lives) to see overall progress across all phases and steps.
 5. Use Glob to list top-level directories and understand the brain's folder structure: `*/` at the brain root.

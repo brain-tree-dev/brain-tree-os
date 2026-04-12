@@ -17,7 +17,7 @@ tools:
 
 - `01_RnD/` — All subdirectories
 - `01_RnD/Architecture-Decisions/` — ADRs you author
-- `CLAUDE.md` — Tech stack reference
+- `BRAIN.md` — Tech stack reference
 
 ## Your Responsibilities
 

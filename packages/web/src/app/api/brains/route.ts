@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { listBrains, getDemoBrainPath, DEMO_BRAIN, scanBrainFiles } from '@/lib/local-data'
+import { listBrains, getDemoBrainPath, DEMO_BRAIN, scanBrainFiles, countAgents } from '@/lib/local-data'
 import { buildDepartmentColorMap } from '@/components/brain/department-colors'
 
 export async function GET() {
@@ -17,7 +17,7 @@ export async function GET() {
     path: demoBrainPath,
     fileCount: demoFiles.length,
     departmentCount: rootFolders.size,
-    agentCount: demoFiles.filter((f) => f.path.startsWith('.claude/agents/')).length,
+    agentCount: countAgents(demoFiles),
     rootFolderColors,
     is_demo: true,
   }
@@ -31,7 +31,7 @@ export async function GET() {
       ...brain,
       fileCount: files.length,
       departmentCount: folders.size,
-      agentCount: files.filter((f) => f.path.startsWith('.claude/agents/')).length,
+      agentCount: countAgents(files),
       rootFolderColors: Array.from(folders).sort().map((f) => cMap.get(f) ?? '#64748B'),
       is_demo: false,
     }
