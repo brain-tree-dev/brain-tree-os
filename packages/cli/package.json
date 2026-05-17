@@ -10,15 +10,24 @@
     "dev": "tsx src/index.ts",
     "typecheck": "tsc --noEmit"
   },
-  "files": ["dist/", "README.md"],
-  "keywords": ["ai", "project-management", "brain", "obsidian", "claude"],
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "keywords": [
+    "ai",
+    "project-management",
+    "brain",
+    "obsidian",
+    "claude"
+  ],
   "license": "MIT",
   "dependencies": {
     "open": "^10.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.0",
-    "@types/node": "^22.0.0",
-    "tsx": "^4.19.0"
+    "@types/node": "^25.8.0",
+    "tsx": "^4.22.1",
+    "typescript": "^6.0.3"
   }
 }
